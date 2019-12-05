@@ -64,12 +64,12 @@ isFull bd = not ( elem 0 (concat bd))
 
 
 boardToStr :: (Int -> String) -> [[Int]] -> Int -> String
-boardToStr playerToChar bd (-1) = ""
-boardToStr playerToChar bd i = val playerToChar (bd !! i) 0 ++ boardToStr playerToChar bd (i-1)
+boardToStr playerToChar bd 7 = ""
+boardToStr playerToChar bd i = val bd playerToChar i 0 ++ boardToStr playerToChar bd (i+1)
   where
-    val :: (Int -> String) -> [Int] -> Int -> String
-    val playerToChar slot 7 = ""
-    val playerToChar slot x = playerToChar (slot !! x) ++ val playerToChar slot (x+1)
+    val :: [[Int]] -> (Int -> String) -> Int -> Int -> String
+    val bd playerToChar y 6 = "\n"
+    val bd playerToChar y x = playerToChar (bd !! x !! y) ++ val bd playerToChar y (x+1)
 
 
 
