@@ -64,12 +64,12 @@ isFull bd = not ( elem 0 (concat bd))
 
 
 boardToStr :: (Int -> String) -> [[Int]] -> Int -> String
-boardToStr playerToChar bd 7 = ""
+boardToStr playerToChar bd 6 = "" --6 represents last row
 boardToStr playerToChar bd i = val bd playerToChar i 0 ++ boardToStr playerToChar bd (i+1)
   where
     val :: [[Int]] -> (Int -> String) -> Int -> Int -> String
-    val bd playerToChar y 6 = "\n"
-    val bd playerToChar y x = playerToChar (bd !! x !! y) ++ val bd playerToChar y (x+1)
+    val bd playerToChar y 7 = "\n" -- 7 represents last column
+    val bd playerToChar y x = playerToChar (bd !! x !! y) ++ val bd playerToChar y (x+1) -- x gets the column, y is the row
 
 
 
@@ -79,4 +79,4 @@ playerToChar :: Int -> String
 playerToChar val
  | (val == 1) = "O "
  | (val == 2) = "X "
- | otherwise = "."
+ | otherwise = ". "
