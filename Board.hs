@@ -21,16 +21,16 @@ dropInSlot :: [[Int]] -> Int -> Int -> [[Int]]
 dropInSlot bd i p = makeNewColumn bd i newColumn
     where currentColumn = getColumn bd i;
           e = getEmptySpot currentColumn; --e is emptyPosition
-          newColumn = insertChip e p currentColumn
+          newColumn = putPlayerToken e p currentColumn
 
 --Takes in board, and column number, returns column
 getColumn :: [[Int]] -> Int -> [Int]
 getColumn bd i = bd !! i
 
---Inserts player at certain slot i
-insertChip i chip (x:xs)
-    | i == 0 = chip:xs
-    | otherwise = x:insertChip (i-1) chip xs
+--Puts player at certain slot i
+putPlayerToken i p (x:xs)
+    | i == 0 = p:xs
+    | otherwise = x:putPlayerToken (i-1) p xs
 
 getEmptySpot column = last ( findIndices(==0) column)
 
