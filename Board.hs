@@ -69,6 +69,15 @@ boardToStr playerToChar bd i = val bd playerToChar i 0 ++ boardToStr playerToCha
     val bd playerToChar y 7 = "\n" -- 7 represents last column
     val bd playerToChar y x = playerToChar (bd !! x !! y) ++ val bd playerToChar y (x+1) -- x gets the column, y is the row
 
+-- Checks for a winner
+isWonBy :: [[Int]] -> Int -> Bool
+isWonBy bd p
+  | ((rowCheck == True) || (colCheck == True)) = True
+  | otherwise = False
+  where
+    rowCheck = winRowCheck bd p 0
+    colCheck = winColCheck bd p 0
+
 -- Checks column for win, takes in board, player, starting row, returns true if player won
 winColCheck :: [[Int]] -> Int -> Int -> Bool
 winColCheck bd p i
@@ -86,6 +95,7 @@ colCheck col p i count
   | ((col !! i) == p) && ((col !! (i+1)) == p) = colCheck col p (i+1) (count+1)
   |otherwise =  colCheck col p (i+1) count
 
+-- Takes in board, player, and row
 winRowCheck :: [[Int]] -> Int -> Int -> Bool
 winRowCheck bd p i
   |(i == 6) = False
@@ -93,13 +103,13 @@ winRowCheck bd p i
   |otherwise = winRowCheck bd p (i+1)
   where check = rowCheck bd p i 0 0
 
+--Takes in board, player, y, x, and win Count
 rowCheck :: [[Int]] -> Int -> Int -> Int -> Int -> Bool
 rowCheck bd p y x count
   | (x == 7) = False
   | (count == 3) = True
   |((bd !! x !! y) == p) && ((bd !! x !! y) == p) = rowCheck bd p y (x+1) (count+1)
   |otherwise = rowCheck bd p y (x+1) count
-
 
 
 playerToChar :: Int -> String
