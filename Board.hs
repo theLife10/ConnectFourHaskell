@@ -1,4 +1,4 @@
-module Board(mkBoard, mkPlayer, mkOpponent, dropInSlot) where
+module Board(mkBoard, mkPlayer, mkOpponent, dropInSlot, boardToStr, isSlotOpen, isWonBy) where
 
 import Data.List
 import Data.Array
@@ -27,7 +27,7 @@ dropInSlot bd i p = makeNewColumn bd i newColumn
 getColumn :: [[Int]] -> Int -> [Int]
 getColumn bd i = bd !! i
 
-
+--Inserts player at certain slot i
 insertChip i chip (x:xs)
     | i == 0 = chip:xs
     | otherwise = x:insertChip (i-1) chip xs
@@ -107,13 +107,6 @@ winRowCheck bd p i
 rowCheck :: [[Int]] -> Int -> Int -> Int -> Int -> Bool
 rowCheck bd p y x count
   | (x == 7) = False
-  | (count == 3) = True
+  | (count == 4) = True
   |((bd !! x !! y) == p) && ((bd !! x !! y) == p) = rowCheck bd p y (x+1) (count+1)
   |otherwise = rowCheck bd p y (x+1) count
-
-
-playerToChar :: Int -> String
-playerToChar val
- | (val == 1) = "O "
- | (val == 2) = "X "
- | otherwise = ". "
