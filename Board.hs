@@ -60,9 +60,7 @@ getToken bd r c = (bd !! r) !! c
 isFull:: [[Int]] -> Bool
 isFull bd = not ( elem 0 (concat bd))
 
-
-
-
+--Prints board
 boardToStr :: (Int -> String) -> [[Int]] -> Int -> String
 boardToStr playerToChar bd 6 = "" --6 represents last row
 boardToStr playerToChar bd i = val bd playerToChar i 0 ++ boardToStr playerToChar bd (i+1)
@@ -71,7 +69,36 @@ boardToStr playerToChar bd i = val bd playerToChar i 0 ++ boardToStr playerToCha
     val bd playerToChar y 7 = "\n" -- 7 represents last column
     val bd playerToChar y x = playerToChar (bd !! x !! y) ++ val bd playerToChar y (x+1) -- x gets the column, y is the row
 
+-- Checks column for win, takes in board, player, starting row, returns true if player won
+winColCheck :: [[Int]] -> Int -> Int -> Bool
+winColCheck bd p i
+  | (check == True) = True
+  | (i == 6) = False
+  |otherwise = winColCheck bd p (i+1)
+  where check = colCheck (bd !! i) p 0 0
 
+
+--Takes in the column, player, and row
+colCheck :: [Int] -> Int -> Int -> Int -> Bool
+colCheck col p i count
+  | (count == 3) = True
+  | (i == 5) = False
+  | ((col !! i) == p) && ((col !! (i+1)) == p) = colCheck col p (i+1) (count+1)
+  |otherwise =  colCheck col p (i+1) count
+
+winRowCheck :: [[Int]] -> Int -> Int -> Bool
+winRowCheck bd p i
+  |(i == 6) = False
+  |(check == True) = True
+  |otherwise = winRowCheck bd p (i+1)
+  where check = rowCheck bd p i 0 0
+
+rowCheck :: [[Int]] -> Int -> Int -> Int -> Int -> Bool
+rowCheck bd p y x count
+  | (x == 7) = False
+  | (count == 3) = True
+  |((bd !! x !! y) == p) && ((bd !! x !! y) == p) = rowCheck bd p y (x+1) (count+1)
+  |otherwise = rowCheck bd p y (x+1) count
 
 
 
